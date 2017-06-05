@@ -883,7 +883,7 @@ var Route = Neact.createClass({
         match ? Neact.createElement(component, props, children) : null : render ? // render prop is next, only called if there's a match
         match ? render(props) : null : children ? // children come last, always called
         typeof children === 'function' ? children(props) : !isArray(children) || children.length ? // Preact defaults to empty children array
-        Neact.cloneElement(Neact.Children.only(children)) : null : null;
+        Neact.Children.only(children) : null : null;
     }
 });
 
@@ -917,7 +917,7 @@ var Router = Neact.createClass({
     render: function () {
         var children = this.props.children;
 
-        return children ? Neact.cloneElement(Neact.Children.only(children)) : null;
+        return children ? Neact.Children.only(children) : null;
     },
     componentWillMount: function () {
         var _this = this;

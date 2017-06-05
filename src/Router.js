@@ -37,7 +37,7 @@ const Router = Neact.createClass({
 
     render() {
         const { children } = this.props;
-        return children ? Neact.cloneElement(Neact.Children.only(children)) : null;
+        return children ? Neact.Children.only(children) : null;
     },
 
     componentWillMount() {

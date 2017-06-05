@@ -874,14 +874,15 @@ function createComponentInstance(vNode, context, isSVG) {
     inst._unmounted = false;
     inst._isSVG = isSVG;
 
-    var childContext = inst.getChildContext();
-
+    var childContext = inst._processChildContext(context);
+    inst._childContext = childContext;
+    /*
     if (!isNullOrUndef(childContext)) {
         inst._childContext = assign({}, context, childContext);
     } else {
         inst._childContext = context;
     }
-
+    */
     return inst;
 }
 
@@ -1420,18 +1421,20 @@ function patch(lastVNode, nextVNode, parentDom, callback, context, isSVG) {
     var isUndefCallbacks = isNullOrUndef(callback);
     callback = callback || new CallbackQueue();
 
-    if (lastVNode !== nextVNode) {
-        if (!isSameVNode(lastVNode, nextVNode)) {
-            replaceWithNewNode(lastVNode, nextVNode, parentDom, callback, context, isSVG);
-        } else if (isElementVNode(lastVNode)) {
-            patchElement(lastVNode, nextVNode, parentDom, callback, context, isSVG);
-        } else if (isComponentVNode(lastVNode)) {
-            patchComponent(lastVNode, nextVNode, parentDom, callback, context, isSVG);
-        } else if (isTextVNode(lastVNode)) {
-            patchText(lastVNode, nextVNode);
-        } else if (isVoidVNode(lastVNode)) {
-            patchVoid(lastVNode, nextVNode);
-        }
+    //if (lastVNode === nextVNode) {
+    //    return nextVNode;
+    //}
+
+    if (!isSameVNode(lastVNode, nextVNode)) {
+        replaceWithNewNode(lastVNode, nextVNode, parentDom, callback, context, isSVG);
+    } else if (isElementVNode(lastVNode)) {
+        patchElement(lastVNode, nextVNode, parentDom, callback, context, isSVG);
+    } else if (isComponentVNode(lastVNode)) {
+        patchComponent(lastVNode, nextVNode, parentDom, callback, context, isSVG);
+    } else if (isTextVNode(lastVNode)) {
+        patchText(lastVNode, nextVNode);
+    } else if (isVoidVNode(lastVNode)) {
+        patchVoid(lastVNode, nextVNode);
     }
 
     if (isUndefCallbacks) {
@@ -1484,9 +1487,9 @@ function patchElement(lastVNode, nextVNode, parentDom, callback, context, isSVG)
         dom.innerHTML = '';
     }
 
-    if (lastChildren !== nextChildren) {
-        patchChildren(lastChildren, nextChildren, dom, callback, context, isSVG);
-    }
+    //if (lastChildren !== nextChildren) {
+    patchChildren(lastChildren, nextChildren, dom, callback, context, isSVG);
+    //}
 
     //processElement(dom, nextVNode);
 
@@ -1654,14 +1657,14 @@ function patchComponent(lastVNode, nextVNode, parentDom, callback, context, isSV
 
         nextChildren = inst._updateComponent(lastProps, nextProps, context);
 
-        childContext = inst.getChildContext();
-
+        childContext = inst._processChildContext(context);
+        /*
         if (!isNullOrUndef(childContext)) {
             childContext = assign({}, context, childContext);
         } else {
             childContext = context;
         }
-
+        */
         if (nextChildren !== emptyObject) {
             nextVNode.children = nextChildren;
             normalizeComponentChildren(nextVNode);
@@ -1934,7 +1937,7 @@ function applyState(inst, callback) {
     var lastChildren = vNode.children;
     var props = inst.props;
     var context = inst.context;
-    var childContext = inst.getChildContext();
+    var childContext = inst._processChildContext(context);
     var nextChildren = void 0,
         shouldUpdate = false;
 
@@ -1952,13 +1955,14 @@ function applyState(inst, callback) {
         if (hooks.beforeUpdate) {
             hooks.beforeUpdate(vNode, vNode);
         }
-
+        inst._childContext = childContext;
+        /*
         if (!isNullOrUndef(childContext)) {
             childContext = assign({}, context, inst._childContext, childContext);
         } else {
             childContext = assign({}, context, inst._childContext);
         }
-
+        */
         var callbacks = inst._callbacks;
 
         patch(lastChildren, nextChildren, parentDom, callbacks, childContext, inst._isSVG);
@@ -2054,6 +2058,20 @@ assign(Component.prototype, {
         }
     },
     getChildContext: function () {},
+    _processChildContext: function (currentContext) {
+        var inst = this;
+        var childContext;
+
+        if (inst.getChildContext) {
+            childContext = inst.getChildContext();
+        }
+
+        if (childContext) {
+            return assign({}, currentContext, childContext);
+        }
+
+        return currentContext;
+    },
     _updateComponent: function (prevProps, nextProps, context) {
         var inst = this;
         if (this._unmounted === true) {
@@ -2221,7 +2239,7 @@ var Children = {
     },
     only: function (children) {
         children = Children.toArray(children);
-        if (children.length !== 1) {
+        if (children.length !== 1 || !isVNode(children[0])) {
             throw new Error('Children.only() expects only one child.');
         }
         return children[0];

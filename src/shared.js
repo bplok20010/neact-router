@@ -45,6 +45,14 @@ function trimDots(ary) {
     }
 }
 
+/**
+ * 
+ * @param {string} path 
+ * @param {string} baseName 
+ * @param {string} delimiter 
+ * @example
+ *   normalizeUrl('../test/my','/root/user/tmp') // /root/user/test/my
+ */
 export function normalizeUrl(path, baseName = '/', delimiter = '/') {
     const baseParts = baseName.split(delimiter);
 
