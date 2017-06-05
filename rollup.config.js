@@ -23,6 +23,7 @@ export default {
             "plugins": [
                 "external-helpers",
                 "transform-es3-property-literals",
+				["transform-class-properties", { "spec": true }],
                 "transform-es3-member-expression-literals", "transform-es2015-shorthand-properties",
                 "transform-es2015-arrow-functions",
                 "transform-es2015-block-scoped-functions",
@@ -38,7 +39,8 @@ export default {
                 "transform-es2015-sticky-regex",
                 "transform-es2015-template-literals",
                 "transform-es2015-typeof-symbol",
-                "transform-es2015-unicode-regex"
+                "transform-es2015-unicode-regex",
+                "transform-class-properties"
             ]
         }),
         replace({

@@ -1,12 +1,11 @@
 'use strict';
 
-import * as Neact from 'neact';
+import Neact from 'neact';
 
 const Redirect = Neact.createClass({
     isStatic() {
         return this.context.router && this.context.router.staticContext;
     },
-
 
     componentWillMount() {
         if (this.isStatic()) {
@@ -23,14 +22,12 @@ const Redirect = Neact.createClass({
     perform() {
         const { history } = this.context.router;
         const { push, to } = this.props;
-        //setTimeout(() => {
 
         if (push) {
             history.push(to);
         } else {
             history.replace(to);
         }
-        //}, 0);
     },
 
     render() {

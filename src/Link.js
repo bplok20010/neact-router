@@ -1,13 +1,10 @@
 'use strict';
 
-import * as Neact from 'neact';
+import Neact from 'neact';
 import _assign from 'object-assign';
-import {
-    normalizeUrl
-} from './shared';
 
 const isModifiedEvent = (event) =>
-    !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey)
+    !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
 
 const Link = Neact.createClass({
     handleClick(event) {
@@ -23,14 +20,7 @@ const Link = Neact.createClass({
             event.preventDefault();
 
             const { history, route } = this.context.router;
-            const baseUrl = route.match ? route.match.url : '/';
             let { replace, to } = this.props;
-
-            if (typeof to === 'string') {
-                to = { pathname: to };
-            }
-
-            to.pathname = normalizeUrl(to.pathname || '/', baseUrl);
 
             if (replace) {
                 history.replace(to);
@@ -42,13 +32,6 @@ const Link = Neact.createClass({
 
     render() {
         let { replace, to, ...props } = this.props;
-        const baseUrl = this.context.router.route.match ? this.context.router.route.match.url : '/';
-
-        if (typeof to === 'string') {
-            to = { pathname: to };
-        }
-
-        to.pathname = normalizeUrl(to.pathname || '/', baseUrl);
 
         const href = this.context.router.history.createHref(
             typeof to === 'string' ? { pathname: to } : to

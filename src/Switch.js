@@ -1,12 +1,11 @@
 'use strict';
 
-import * as Neact from 'neact';
+import Neact from 'neact';
 import warning from 'warning';
 import matchPath from './matchPath';
 import _assign from 'object-assign';
 import {
-    isNullOrUndef,
-    normalizeUrl
+    isNullOrUndef
 } from './shared';
 
 const Switch = Neact.createClass({
@@ -24,7 +23,6 @@ const Switch = Neact.createClass({
         const { route } = this.context.router;
         const { children } = this.props;
         const location = this.props.location || route.location;
-        const baseName = route.match ? route.match.url : '/';
 
         let match, child;
         Neact.Children.forEach(children, element => {
@@ -35,11 +33,11 @@ const Switch = Neact.createClass({
 
             if (isNullOrUndef(match)) {
                 child = element;
-                match = path ? matchPath(location.pathname, { path: normalizeUrl(path, baseName), exact, strict }) : route.match;
+                match = path ? matchPath(location.pathname, { path, exact, strict }) : route.match;
             }
         });
 
-        child.props = _assign(child.props || (child.props = {}), { location, computedMatch: match })
+        child.props = _assign(child.props || {}, { location, computedMatch: match });
 
         return match ? child : null;
     }

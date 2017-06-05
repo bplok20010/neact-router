@@ -1,6 +1,6 @@
 'use strict';
 
-import * as Neact from 'neact';
+import Neact from 'neact';
 import {
     isObject
 } from './shared';

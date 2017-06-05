@@ -1,28 +1,18 @@
 'use strict';
 
 import warning from 'warning';
-import * as Neact from 'neact';
+import Neact from 'neact';
 import matchPath from './matchPath';
 
 import _assign from 'object-assign';
 
 import {
-    isArray,
-    normalizeUrl
+    isArray
 } from './shared';
 
 const Route = Neact.createClass({
     construct(props, context) {
-        this.normalizePath(props, context);
-
         this.state.match = this.computeMatch(props, context.router);
-    },
-
-    normalizePath(props, context) {
-        const router = context.router;
-        const baseUrl = router.route.match ? router.route.match.url : '/';
-
-        props.path = normalizeUrl(props.path, baseUrl);
     },
 
     computeMatch({ location, path, strict, exact, computedMatch }, { route }) {
@@ -70,8 +60,6 @@ const Route = Neact.createClass({
         warning(!(!nextProps.location && this.props.location),
             '<Route> elements should not change from controlled to uncontrolled (or vice versa). You provided a "location" prop initially but omitted it on a subsequent render.'
         );
-
-        this.normalizePath(nextProps, nextContext);
 
         this.setState({
             match: this.computeMatch(nextProps, nextContext.router)

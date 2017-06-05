@@ -2,6 +2,7 @@
     "presets": ["react", "stage-0"],
     "plugins": [
         "transform-es3-property-literals",
+        ["transform-class-properties", { "spec": true }],
         "transform-es3-member-expression-literals", "transform-es2015-shorthand-properties", ["transform-es2015-modules-commonjs", { "loose": true }],
         "transform-es2015-arrow-functions",
         "transform-es2015-block-scoped-functions",

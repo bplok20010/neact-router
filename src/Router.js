@@ -1,7 +1,7 @@
 'use strict';
 
 import warning from 'warning';
-import * as Neact from 'neact';
+import Neact from 'neact';
 
 import _assign from 'object-assign';
 
