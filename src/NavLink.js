@@ -1,6 +1,6 @@
 'use strict';
 
-import Neact from 'neact';
+import * as Neact from 'neact';
 import {
     isObject
 } from './shared';
@@ -9,7 +9,6 @@ import _assign from 'object-assign';
 
 import Route from './Route';
 import Link from './Link';
-
 
 const NavLink = ({
     to,

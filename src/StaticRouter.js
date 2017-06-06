@@ -1,6 +1,6 @@
 /*@jsx Neact.createElement*/
 'use strict';
-import Neact from 'neact';
+import * as Neact from 'neact';
 import { addLeadingSlash, createPath, parsePath } from 'history/es/PathUtils';
 import Router from './Router';
 

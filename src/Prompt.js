@@ -1,5 +1,5 @@
 'use strict';
-import Neact from 'neact';
+import * as Neact from 'neact';
 
 /**
  * The public API for prompting the user before navigating away

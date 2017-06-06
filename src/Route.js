@@ -1,7 +1,7 @@
 'use strict';
 
 import warning from 'warning';
-import Neact from 'neact';
+import * as Neact from 'neact';
 import matchPath from './matchPath';
 
 import _assign from 'object-assign';
@@ -72,10 +72,10 @@ const Route = Neact.createClass({
         const { history, route, staticContext } = this.context.router;
         const location = this.props.location || route.location;
         const props = { match, location, history, staticContext };
-
+        
         return (
             component ? ( // component prop gets first priority, only called if there's a match
-                match ? Neact.createElement(component, props, children) : null
+                match ? Neact.createElement(component, props) : null
             ) : render ? ( // render prop is next, only called if there's a match
                 match ? render(props) : null
             ) : children ? ( // children come last, always called

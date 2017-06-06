@@ -1,9 +1,10 @@
 "use strict";
 /*@jsx Neact.createElement*/
-var Router = NeactRouter.Router,
+var Router = NeactRouter.BrowserRouter,
     Route = NeactRouter.Route,
     Switch = NeactRouter.Switch,
-	Link = NeactRouter.Link;
+	  Link = NeactRouter.Link;
+
 var React = Neact;
 
 

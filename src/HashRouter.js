@@ -1,6 +1,6 @@
 /*@jsx Neact.createElement*/
 'use strict';
-import Neact from 'neact';
+import * as Neact from 'neact';
 import createHistory from 'history/es/createHashHistory';
 import Router from './Router';
 

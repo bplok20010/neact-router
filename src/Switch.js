@@ -1,6 +1,6 @@
 'use strict';
 
-import Neact from 'neact';
+import * as Neact from 'neact';
 import warning from 'warning';
 import matchPath from './matchPath';
 import _assign from 'object-assign';

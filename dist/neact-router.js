@@ -4,8 +4,6 @@
 	(factory((global.NeactRouter = global.NeactRouter || {}),global.Neact));
 }(this, (function (exports,Neact) { 'use strict';
 
-Neact = 'default' in Neact ? Neact['default'] : Neact;
-
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -2164,7 +2162,7 @@ var Route = Neact.createClass({
         var props = { match: match, location: location, history: history, staticContext: staticContext };
 
         return component ? // component prop gets first priority, only called if there's a match
-        match ? Neact.createElement(component, props, children) : null : render ? // render prop is next, only called if there's a match
+        match ? Neact.createElement(component, props) : null : render ? // render prop is next, only called if there's a match
         match ? render(props) : null : children ? // children come last, always called
         typeof children === 'function' ? children(props) : !isArray(children) || children.length ? // Preact defaults to empty children array
         Neact.Children.only(children) : null : null;

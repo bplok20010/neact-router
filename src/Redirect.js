@@ -1,6 +1,6 @@
 'use strict';
 
-import Neact from 'neact';
+import * as Neact from 'neact';
 
 const Redirect = Neact.createClass({
     isStatic() {
